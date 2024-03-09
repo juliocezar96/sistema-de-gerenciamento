@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const clienteController = require('../controllers/clienteController');
+const clienteController = require("../controllers/clienteController");
 
 /**
  * @swagger
@@ -15,9 +15,9 @@ const clienteController = require('../controllers/clienteController');
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Cliente'
+ *                 $ref: '#/schemas/Cliente'
  */
-router.get('/', clienteController.getAll);
+router.get("/", clienteController.getAll);
 
 /**
  * @swagger
@@ -38,11 +38,11 @@ router.get('/', clienteController.getAll);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Cliente'
+ *             $ref: '#/backend/schemas/NovoCliente'
  *       404:
  *         description: Cliente não encontrado
  */
-router.get('/:id', clienteController.getById);
+router.get("/:id", clienteController.getById);
 
 /**
  * @swagger
@@ -54,7 +54,7 @@ router.get('/:id', clienteController.getById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/NovoCliente'
+ *             $ref: '#/backend/schemas/NovoCliente'
  *     responses:
  *       201:
  *         description: Cliente criado com sucesso
@@ -72,6 +72,6 @@ router.get('/:id', clienteController.getById);
  *       500:
  *         description: Erro interno do servidor
  */
-router.post('/', clienteController.create);
+router.post("/", clienteController.create);
 
 module.exports = router;
