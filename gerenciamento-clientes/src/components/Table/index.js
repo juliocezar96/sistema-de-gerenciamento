@@ -1,45 +1,49 @@
 import React from "react";
-import Table from "react-bootstrap/Table";
-import Mapa from "../../Pages/Mapa";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import VisualizarIcon from "../Icon";
 
-const TableC = ({ clientes, handleOpenMap }) => {
+export default function BasicTable({ clientes }) {
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Telefone</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {clientes.map((cliente) => (
-          <tr key={cliente.id}>
-            <td>{cliente.id}</td>
-            <td>{cliente.nome}</td>
-            <td>{cliente.email}</td>
-            <td>{cliente.telefone}</td>
-            <td className="d-flex aligen-items-center justify-content-center">
-              <button type="button" className="btn btn-outline-secondary" onClick={() => handleOpenMap(<Mapa />)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-geo-alt-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"></path>
-                </svg>
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>#</TableCell>
+            <TableCell align="right">Nome</TableCell>
+            <TableCell align="right">E-mail</TableCell>
+            <TableCell align="right">Telefone</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {clientes.map((cliente) => (
+            <TableRow
+              key={cliente.id}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {cliente.id}
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {cliente.nome}
+              </TableCell>
+              <TableCell align="right">{cliente.email}</TableCell>
+              <TableCell align="right">{cliente.telefone}</TableCell>
+              <TableCell align="right">
+                <VisualizarIcon clienteId={cliente.id} />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
-};
-
-export default TableC;
+}
