@@ -15,7 +15,7 @@ const clienteController = require("../controllers/clienteController");
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/schemas/Cliente'
+ *                 $ref: '#/components/schemas/Cliente'
  */
 router.get("/", clienteController.getAll);
 
@@ -38,7 +38,7 @@ router.get("/", clienteController.getAll);
  *         content:
  *           application/json:
  *             schema:
- *             $ref: '#/backend/schemas/NovoCliente'
+ *             $ref: '#/components/schemas/NovoCliente'
  *       404:
  *         description: Cliente não encontrado
  */
@@ -54,7 +54,7 @@ router.get("/:id", clienteController.getById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/backend/schemas/NovoCliente'
+ *             $ref: '#/components/schemas/NovoCliente'
  *     responses:
  *       201:
  *         description: Cliente criado com sucesso
