@@ -20,5 +20,3 @@ CREATE TABLE geolocalizacaoCliente (
     longitude DECIMAL(11, 8),
     FOREIGN KEY (clienteId) REFERENCES clientes(id)
 );
-
-INSERT INTO geolocalizacaoCliente (clienteId, latitude, longitude) VALUES (@clienteId, '40.7128', '-74.0060');
