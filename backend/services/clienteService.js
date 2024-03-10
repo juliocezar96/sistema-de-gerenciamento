@@ -9,7 +9,7 @@ const {
   twoOpt,
 } = require("../utils/algoritimosBusca");
 
-const MAX_CLIENTES_PARA_FORCA_BRUTA = 10;
+const MAX_CLIENTES_PARA_FORCA_BRUTA = 9;
 
 const clienteService = {
   buscarTodos: () => {
