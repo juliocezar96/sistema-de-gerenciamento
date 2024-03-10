@@ -17,7 +17,24 @@ const clienteController = require("../controllers/clienteController");
  *               items:
  *                 $ref: '#/components/schemas/Cliente'
  */
-router.get("/", clienteController.getAll);
+router.get("/", clienteController.buscarTodos);
+
+/**
+ * @swagger
+ * /clientes/rotas:
+ *   get:
+ *     summary: Retorna uma lista de clientes na ordem de visitação
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Cliente'
+ */
+router.get("/rotas", clienteController.montarOrdemVisitacaoClientes);
 
 /**
  * @swagger
@@ -42,7 +59,7 @@ router.get("/", clienteController.getAll);
  *       404:
  *         description: Cliente não encontrado
  */
-router.get("/:id", clienteController.getById);
+router.get("/:id", clienteController.buscarPorId);
 
 /**
  * @swagger
@@ -72,6 +89,6 @@ router.get("/:id", clienteController.getById);
  *       500:
  *         description: Erro interno do servidor
  */
-router.post("/", clienteController.create);
+router.post("/", clienteController.criar);
 
 module.exports = router;

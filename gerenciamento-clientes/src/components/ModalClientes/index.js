@@ -1,61 +1,26 @@
 import { Box, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import ClienteApiImpl from "../../rest/ClienteApi";
 
 import L from "leaflet";
 
-const clientes = [
-  {
-    id: 1,
-    nome: "Bispo",
-    email: "bispo@email.com",
-    telefone: "81992014121",
-    latitude: "-8.06748160",
-    longitude: "-34.89464320",
-  },
-  {
-    id: 2,
-    nome: "Oliveira",
-    email: "oliver@email.com",
-    telefone: "81999912121",
-    latitude: "-8.07175900",
-    longitude: "-34.90105500",
-  },
-  {
-    id: 6,
-    nome: "Julio",
-    email: "juliO@gmail.com",
-    telefone: "81992121213",
-    latitude: "-8.08701300",
-    longitude: "-34.91607500",
-  },
-  {
-    id: 7,
-    nome: "dolfo",
-    email: "dolfo@gmail.com",
-    telefone: "81981827121",
-    latitude: "-8.11441700",
-    longitude: "-34.90594700",
-  },
-  {
-    id: 5,
-    nome: "indira",
-    email: "indira@example.com",
-    telefone: "81912121212",
-    latitude: "-8.05862900",
-    longitude: "-34.93967900",
-  },
-  {
-    id: 4,
-    nome: "Bruna",
-    email: "bruna1@email.com",
-    telefone: "81921212134",
-    latitude: "-8.04945100",
-    longitude: "-34.93122400",
-  },
-];
+const ModalMapaClientes = ({ open, handleClose }) => {
+  const [clientes, setClientes] = useState([]);
 
-const ModalMapaClientes = ({ open, handleClose, clientesl }) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await ClienteApiImpl.buscarRotas();
+        setClientes(response);
+      } catch (error) {
+        console.error("Erro ao buscar clientes:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const NumberedMarker = ({ cliente, number }) => {
     const position = {
       lat: cliente.latitude,
@@ -68,7 +33,7 @@ const ModalMapaClientes = ({ open, handleClose, clientesl }) => {
 
     return (
       <Marker position={position} icon={icon}>
-        <Popup>{cliente.id}</Popup>
+        <Popup>{cliente.nome}</Popup>
       </Marker>
     );
   };

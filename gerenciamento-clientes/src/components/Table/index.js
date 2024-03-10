@@ -92,11 +92,7 @@ export default function BasicTable({ clientes }) {
 
       <ModalForm open={openModalForm} handleCloseModal={handleCloseModalForm} />
 
-      <ModalMapaClientes
-        open={openModal}
-        handleClose={handleCloseModal}
-        clientes={clientes}
-      />
+      <ModalMapaClientes open={openModal} handleClose={handleCloseModal} />
     </>
   );
 }

@@ -1,34 +1,69 @@
-const db = require('../config/database');
+const db = require("../config/database");
 
 const Cliente = {
-    getAll: (callback) => {
-        db.query('SELECT c.*, g.latitude, g.longitude FROM clientes c LEFT JOIN geolocalizacaoCliente g ON c.id = g.clienteId', callback);
-    },
-    getById: (id, callback) => {
-        db.query('SELECT c.*, g.latitude, g.longitude FROM clientes c LEFT JOIN geolocalizacaoCliente g ON c.id = g.clienteId WHERE c.id = ?', [id], callback);
-    },
-    create: (novoCliente, callback) => {
-        db.query('INSERT INTO clientes (nome, email, telefone) VALUES (?, ?, ?)', 
-                 [novoCliente.nome, novoCliente.email, novoCliente.telefone], (err, result) => {
-            if (err) {
-                callback(err, null);
-                return;
-            }
-
-            if (novoCliente.latitude && novoCliente.longitude) {
-                console.log(novoCliente)
-                db.query('INSERT INTO geolocalizacaoCliente (clienteId, latitude, longitude) VALUES (?, ?, ?)', 
-                         [result.insertId, novoCliente.latitude, novoCliente.longitude], (err, result) => {
-                    if (err) {
-                        console.error('Erro ao inserir geolocalização do cliente: ', err);
-                        
-                    }
-                });
-            }
-
-            callback(null, { insertId: result.insertId });
-        });
+  async buscarTodos() {
+    try {
+      const query = `
+        SELECT c.*, l.latitude, l.longitude 
+        FROM clientes c 
+        LEFT JOIN geolocalizacao l ON c.geolocalizacaoId = l.id
+      `;
+      const { rows } = await db.query(query);
+      return rows;
+    } catch (error) {
+      console.error("Erro ao obter todos os clientes:", error);
+      throw new Error("Erro ao obter todos os clientes");
     }
+  },
+
+  async buscarPorId(id) {
+    try {
+      const query = `
+        SELECT c.*, l.latitude, l.longitude 
+        FROM clientes c 
+        LEFT JOIN geolocalizacao l ON c.geolocalizacaoId = l.id
+        WHERE c.id = $1
+      `;
+      const { rows } = await db.query(query, [id]);
+      return rows[0] || null;
+    } catch (error) {
+      console.error("Erro ao obter cliente por ID:", error);
+      throw new Error("Erro ao obter cliente por ID");
+    }
+  },
+
+  async criar(novoCliente) {
+    try {
+      const geoQuery = `
+        INSERT INTO geolocalizacao (latitude, longitude) 
+        VALUES ($1, $2)
+        RETURNING id
+      `;
+      const { rows } = await db.query(geoQuery, [
+        novoCliente.latitude,
+        novoCliente.longitude,
+      ]);
+      const geolocalizacaoId = rows[0].id;
+
+      const insertQuery = `
+        INSERT INTO clientes (nome, email, telefone, geolocalizacaoId) 
+        VALUES ($1, $2, $3, $4) 
+        RETURNING id
+      `;
+      const { rows: clienteRows } = await db.query(insertQuery, [
+        novoCliente.nome,
+        novoCliente.email,
+        novoCliente.telefone,
+        geolocalizacaoId,
+      ]);
+      const clienteId = clienteRows[0].id;
+
+      return { insertId: clienteId };
+    } catch (error) {
+      console.error("Erro ao criar novo cliente:", error);
+      throw new Error("Erro ao criar novo cliente");
+    }
+  },
 };
 
 module.exports = Cliente;

@@ -1,31 +1,27 @@
-import fetcher from '../services/index';
+import fetcher from "../services/index";
 
 class ClienteApi {
-    async buscarClientes() {
-		return fetcher(`http://localhost:3000/clientes`);
-	}
+  async buscarClientes() {
+    return fetcher(`http://localhost:3000/clientes`);
+  }
 
-    async buscarClientePorId(id) {
-		return fetcher(`http://localhost:3000/clientes/${id}`);
-	}
+  async buscarClientePorId(id) {
+    return fetcher(`http://localhost:3000/clientes/${id}`);
+  }
 
-    async criarCliente(
-        nome,
-        email,
-        telefone, 
-        latitude,
-        longitude
-        ) {
-		return fetcher.post(
-			`http://localhost:3000/clientes`,{
-                nome,
-                email,
-                telefone, 
-                latitude,
-                longitude,
-            }
-		);
-	}
+  async criarCliente(nome, email, telefone, latitude, longitude) {
+    return fetcher.post(`http://localhost:3000/clientes`, {
+      nome,
+      email,
+      telefone,
+      latitude,
+      longitude,
+    });
+  }
+
+  async buscarRotas() {
+    return fetcher(`http://localhost:3000/clientes/rotas`);
+  }
 }
 
 const ClienteApiImpl = new ClienteApi();
