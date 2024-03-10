@@ -25,9 +25,7 @@ const clienteService = {
   },
 
   montarOrdemVisitacaoClientes: async (clientes, empresa) => {
-    if (clientes.length < 2) {
-      return clientes;
-    }
+
     const distanciaEntreClientes = getdistanciaEntreClientes([
       empresa,
       ...clientes,
