@@ -40,8 +40,8 @@ const Cliente = {
         RETURNING id
       `;
       const { rows } = await db.query(geoQuery, [
-        novoCliente.latitude,
-        novoCliente.longitude,
+        parseFloat(novoCliente.latitude),
+        parseFloat(novoCliente.longitude),
       ]);
       const geolocalizacaoId = rows[0].id;
 

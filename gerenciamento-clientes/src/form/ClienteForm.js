@@ -19,11 +19,13 @@ function ClienteForm({ onClose }) {
     longitude: "",
   });
   const [formErrors, setFormErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
     setFormErrors({ ...formErrors, [name]: "" });
+    setErrorMessage("");
   };
 
   const handleSubmit = async (event) => {
@@ -60,7 +62,11 @@ function ClienteForm({ onClose }) {
       });
     } catch (error) {
       console.error("Erro ao criar cliente:", error);
-      alert("Erro ao criar cliente. Verifique o console para mais detalhes.");
+      if (error.status === 500) {
+        setErrorMessage("Erro interno do servidor. Por favor, tente novamente mais tarde.");
+      } else {
+        setErrorMessage(error.error || "Erro ao criar cliente.");
+      }
     }
   };
 
@@ -69,6 +75,7 @@ function ClienteForm({ onClose }) {
       <Typography variant="h5" gutterBottom>
         Cadastrar Novo Cliente
       </Typography>
+      {errorMessage && <Typography color="error">{errorMessage}</Typography>}
       <Box mt={2}>
         <FormControl>
           <form onSubmit={handleSubmit}>
@@ -92,6 +99,7 @@ function ClienteForm({ onClose }) {
                     name={fieldName}
                     value={formValues[fieldName]}
                     onChange={handleChange}
+                    error={!!formErrors[fieldName]}
                   />
                   <FormHelperText error>{formErrors[fieldName]}</FormHelperText>
                 </Grid>
