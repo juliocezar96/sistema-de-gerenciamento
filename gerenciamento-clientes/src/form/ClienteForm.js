@@ -1,81 +1,111 @@
-import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import ClienteApiImpl from '../rest/ClienteApi';
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  FormControl,
+  Grid,
+  Typography,
+  Box,
+  FormHelperText,
+} from "@mui/material";
+import ClienteApiImpl from "../rest/ClienteApi";
 
-function ClienteForm() {
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+function ClienteForm({ onClose }) {
+  const [formValues, setFormValues] = useState({
+    nome: "",
+    email: "",
+    telefone: "",
+    latitude: "",
+    longitude: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
+    setFormErrors({ ...formErrors, [name]: "" });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const { nome, email, telefone, latitude, longitude } = formValues;
+
+    const newFormErrors = {};
+    if (!nome) newFormErrors.nome = "Campo 'Nome' é obrigatório";
+    if (!email) newFormErrors.email = "Campo 'Email' é obrigatório";
+    if (!telefone) newFormErrors.telefone = "Campo 'Telefone' é obrigatório";
+    if (!latitude) newFormErrors.latitude = "Campo 'Latitude' é obrigatório";
+    if (!longitude) newFormErrors.longitude = "Campo 'Longitude' é obrigatório";
+
+    if (Object.keys(newFormErrors).length > 0) {
+      setFormErrors(newFormErrors);
+      return;
+    }
+
     try {
-      await ClienteApiImpl.criarCliente(nome, email, telefone, latitude, longitude);
-      alert('Cliente criado com sucesso!');
+      await ClienteApiImpl.criarCliente(
+        nome,
+        email,
+        telefone,
+        latitude,
+        longitude
+      );
+      alert("Cliente criado com sucesso!");
+      setFormValues({
+        nome: "",
+        email: "",
+        telefone: "",
+        latitude: "",
+        longitude: "",
+      });
     } catch (error) {
-      console.error('Erro ao criar cliente:', error);
-      alert('Erro ao criar cliente. Verifique o console para mais detalhes.');
+      console.error("Erro ao criar cliente:", error);
+      alert("Erro ao criar cliente. Verifique o console para mais detalhes.");
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formNome">
-        <Form.Label>Nome</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Digite o nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formEmail">
-        <Form.Label>Email</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="Digite o email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formTelefone">
-        <Form.Label>Telefone</Form.Label>
-        <Form.Control
-          type="tel"
-          placeholder="Digite o telefone"
-          value={telefone}
-          onChange={(e) => setTelefone(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formLatitude">
-        <Form.Label>Latitude</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Digite a latitude"
-          value={latitude}
-          onChange={(e) => setLatitude(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formLongitude">
-        <Form.Label>Longitude</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Digite a longitude"
-          value={longitude}
-          onChange={(e) => setLongitude(e.target.value)}
-        />
-      </Form.Group>
-
-      <Button variant="primary" type="submit">
-        Enviar
-      </Button>
-    </Form>
+    <Box p={2} bgcolor="background.default">
+      <Typography variant="h5" gutterBottom>
+        Cadastrar Novo Cliente
+      </Typography>
+      <Box mt={2}>
+        <FormControl>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              {Object.keys(formValues).map((fieldName) => (
+                <Grid
+                  item
+                  xs={
+                    fieldName === "latitude" || fieldName === "longitude"
+                      ? 6
+                      : 12
+                  }
+                  key={fieldName}
+                >
+                  <TextField
+                    label={
+                      fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
+                    }
+                    variant="outlined"
+                    fullWidth
+                    name={fieldName}
+                    value={formValues[fieldName]}
+                    onChange={handleChange}
+                  />
+                  <FormHelperText error>{formErrors[fieldName]}</FormHelperText>
+                </Grid>
+              ))}
+              <Grid item xs={12}>
+                <Button variant="contained" type="submit">
+                  Enviar
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </FormControl>
+      </Box>
+    </Box>
   );
 }
 

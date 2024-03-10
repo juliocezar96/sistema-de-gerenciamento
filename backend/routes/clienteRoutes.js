@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const clienteController = require('../controllers/clienteController');
+const clienteController = require("../controllers/clienteController");
 
 /**
  * @swagger
@@ -17,7 +17,24 @@ const clienteController = require('../controllers/clienteController');
  *               items:
  *                 $ref: '#/components/schemas/Cliente'
  */
-router.get('/', clienteController.getAll);
+router.get("/", clienteController.buscarTodos);
+
+/**
+ * @swagger
+ * /clientes/rotas:
+ *   get:
+ *     summary: Retorna uma lista de clientes na ordem de visitação
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Cliente'
+ */
+router.get("/rotas", clienteController.montarOrdemVisitacaoClientes);
 
 /**
  * @swagger
@@ -38,11 +55,11 @@ router.get('/', clienteController.getAll);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Cliente'
+ *             $ref: '#/components/schemas/NovoCliente'
  *       404:
  *         description: Cliente não encontrado
  */
-router.get('/:id', clienteController.getById);
+router.get("/:id", clienteController.buscarPorId);
 
 /**
  * @swagger
@@ -72,6 +89,6 @@ router.get('/:id', clienteController.getById);
  *       500:
  *         description: Erro interno do servidor
  */
-router.post('/', clienteController.create);
+router.post("/", clienteController.criar);
 
 module.exports = router;
