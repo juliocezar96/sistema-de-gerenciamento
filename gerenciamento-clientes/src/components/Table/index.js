@@ -45,11 +45,19 @@ export default function BasicTable({ clientes }) {
           padding: "12px 0 12px 0",
         }}
       >
-        <Button variant="contained" onClick={handleOpenModalForm}>
+        <Button
+          variant="contained"
+          onClick={handleOpenModalForm}
+          style={{ margin: "10px" }}
+        >
           <AddCircleOutlineIcon />
         </Button>
 
-        <Button variant="contained" onClick={handleOpenModal}>
+        <Button
+          variant="contained"
+          onClick={handleOpenModal}
+          style={{ margin: "10px" }}
+        >
           <MapIcon />
         </Button>
       </Box>
