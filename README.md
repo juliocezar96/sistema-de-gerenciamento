@@ -1,12 +1,5 @@
 ## Available Scripts
 
-In the project directory, you can run:
-
-### `node app.js`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000/api-cliente](http://localhost:3000/api-cliente) to view it in your browser.
-
 ### `Desafios`
 
 Ao trabalhar com rotas geograficas a fim de obter o caminho mais próximo, enfreta-se um problema conhecido chamado de O problema do caixeiro viajante.
@@ -36,39 +29,21 @@ Neste projeto, adotamos uma estratégia para determinar a melhor rota, seguindo 
 ### Banco de Dados
 
 - Para subir o banco de dados, foi utilizado o banco de dados postgresql versao 15.
+- Dentro do backend, tem um arquivo [DDL_e_DML.txt](backend/DDL_e_DML.txt), para executar todos os comandos.
 
-Comandos para rodar script SQL:
+### No diretório do projeto, você pode executar backend:
 
-```
-CREATE TABLE geolocalizacao (
-  id SERIAL PRIMARY KEY,
-  latitude DECIMAL(10,8),
-  longitude DECIMAL(11,8)
-);
+1. Clone o repositorio: `git clone git@github.com:juliocezar96/sistema-de-gerenciamento.git`
+2. Acesse o repositorio clonado: `cd sistema-de-gerenciamento`
+3. Acesse o backend: `cd backend`
+4. Execute o comando: `node app.js`
 
-CREATE TABLE clientes (
-  id SERIAL PRIMARY KEY,
-  nome VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  telefone VARCHAR(20) NOT NULL,
-  geolocalizacaoId INTEGER REFERENCES geolocalizacao(id) ON DELETE SET NULL
-);
+Executa o aplicativo no modo de desenvolvimento.\
+Abra [http://localhost:3000/api-cliente](http://localhost:3000/api-cliente) para visualizá-lo em seu navegador.
 
-CREATE TABLE empresas (
-  id SERIAL PRIMARY KEY,
-  nome VARCHAR(255) NOT NULL,
-  geolocalizacaoId INTEGER,
-  FOREIGN KEY (geolocalizacaoId) REFERENCES geolocalizacao(id)
-);
+### Executando o Frontend
 
-INSERT INTO empresas
-(id, nome, geolocalizacaoid)
-VALUES(1, 'empresa1', 7);
-
-
-INSERT INTO geolocalizacao(latitude, longitude) VALUES (-8.06748160,-34.89464320),(-8.07175900,-34.90105500),(-8.04945100,-34.93122400),(-8.05862900,-34.93967900),(-8.08701300,-34.91607500),(-8.11441700,-34.90594700),(-8.06093200, -34.87221600);
-
-INSERT INTO clientes (nome, email, telefone, geolocalizacaoId) VALUES ('Bispo','bispo@email.com','81992014121', 1),('Oliveira','oliver@email.com','81999912121', 2),('Bruna','bruna1@email.com','81921212134', 3),('indira','indira@example.com','81912121212', 4),('Julio','juliO@gmail.com','81992121213', 5),('dolfo','dolfo@gmail.com','81981827121', 6),;
-
-
-```
+1. No repositorio clonado: `cd sistema-de-gerenciamento`
+2. Acesse o frontend: `cd gerenciamento-clientes`
+3. Instale as dependências: `npm i`
+4. Execute `npm start`, aperte `Y` no terminal e em seguida abrirá uma pagina no seu navegador.
