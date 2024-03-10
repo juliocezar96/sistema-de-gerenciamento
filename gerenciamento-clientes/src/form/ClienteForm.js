@@ -1,27 +1,33 @@
-import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
-import ClienteApiImpl from '../rest/ClienteApi';
+import React, { useState } from "react";
+import { TextField, Button, FormControl } from "@mui/material";
+import ClienteApiImpl from "../rest/ClienteApi";
 
-function ClienteForm() {
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+function ClienteForm({ onClose }) {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await ClienteApiImpl.criarCliente(nome, email, telefone, latitude, longitude);
-      alert('Cliente criado com sucesso!');
+      await ClienteApiImpl.criarCliente(
+        nome,
+        email,
+        telefone,
+        latitude,
+        longitude
+      );
+      alert("Cliente criado com sucesso!");
     } catch (error) {
-      console.error('Erro ao criar cliente:', error);
-      alert('Erro ao criar cliente. Verifique o console para mais detalhes.');
+      console.error("Erro ao criar cliente:", error);
+      alert("Erro ao criar cliente. Verifique o console para mais detalhes.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <FormControl onSubmit={handleSubmit}>
       <TextField
         label="Nome"
         variant="outlined"
@@ -55,7 +61,7 @@ function ClienteForm() {
       <Button variant="contained" type="submit">
         Enviar
       </Button>
-    </form>
+    </FormControl>
   );
 }
 

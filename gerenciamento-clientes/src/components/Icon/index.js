@@ -1,12 +1,14 @@
 import React from "react";
-import { Button } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Button, Icon } from "@mui/material";
+import PlaceIcon from "@mui/icons-material/Place";
 
 const VisualizarIcon = ({ onClick }) => {
   return (
-    <Button variant="outlined" onClick={onClick}>
-      <VisibilityIcon />
-    </Button>
+    <>
+      <Button variant="outlined" onClick={onClick}>
+        <PlaceIcon />
+      </Button>
+    </>
   );
 };
 
