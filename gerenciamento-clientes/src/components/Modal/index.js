@@ -1,6 +1,6 @@
 import { Box, Modal } from "@mui/material";
 import React from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 const ModalMapa = ({ open, handleClose, cliente }) => {
   const position = [cliente?.latitude, cliente?.longitude];
@@ -29,11 +29,7 @@ const ModalMapa = ({ open, handleClose, cliente }) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+          <Marker position={position}></Marker>
         </MapContainer>
       </Box>
     </Modal>

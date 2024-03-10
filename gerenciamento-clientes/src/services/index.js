@@ -28,14 +28,6 @@ const fetcher = async (
 	}
 };
 
-
-fetcher.patch = (resource, data, options) =>
-	fetcher(resource, {
-		...options,
-		body: JSON.stringify(data),
-		method: 'PATCH',
-	});
-
 fetcher.post = (
 	resource,
 	data,
