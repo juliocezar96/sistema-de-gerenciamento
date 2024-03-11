@@ -36,7 +36,8 @@ Neste projeto, adotamos uma estratégia para determinar a melhor rota, seguindo 
 1. Clone o repositorio: `git clone git@github.com:juliocezar96/sistema-de-gerenciamento.git`
 2. Acesse o repositorio clonado: `cd sistema-de-gerenciamento`
 3. Acesse o backend: `cd backend`
-4. Execute o comando: `node app.js`
+4. Execute o comando: `npm i`
+5. Execute o comando: `node app.js`
 
 Executa o aplicativo no modo de desenvolvimento.\
 Abra [http://localhost:3000/api-cliente](http://localhost:3000/api-cliente) para visualizá-lo em seu navegador.
